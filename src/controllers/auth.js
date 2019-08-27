@@ -30,4 +30,21 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
+  const { username, password } = req.body
+
+  if (!username || !password) {
+    return res.status(400).send()
+  }
+
+  try {
+    var user = await UserModel.findOne({ username })
+  } catch (err) {
+    return res.status(500).send()
+  }
+
+  if (!user || user.password !== password) {
+    return res.json({ errors: ['invalid credentials'] })
+  }
+
+  return res.json({ user: user.toObject() })
 }
