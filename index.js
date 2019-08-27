@@ -24,6 +24,11 @@ if (process.env.NODE_ENV == 'production') {
   })
 }
 
+const setupAuthRoutes = require('./src/routes/auth')
+const authRouter = express.Router()
+setupAuthRoutes(authRouter)
+app.use("/api/auth", authRouter)
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => { console.info(`Successfuly connected to port ${PORT}`) })
 
