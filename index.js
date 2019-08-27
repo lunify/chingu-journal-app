@@ -26,3 +26,11 @@ if (process.env.NODE_ENV == 'production') {
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => { console.info(`Successfuly connected to port ${PORT}`) })
+
+const mongoose = require('mongoose')
+const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost/v11-prework-journal'
+mongoose.connect(
+  DB_URI,
+  { useNewUrlParser: true, useCreateIndex: true },
+  () => console.info(`Connected to ${DB_URI}`)
+)
