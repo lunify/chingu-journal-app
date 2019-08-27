@@ -43,7 +43,7 @@ async function login(req, res) {
     return res.status(500).send()
   }
 
-  if (!user || user.password !== password) {
+  if (!user || !(await user.verifyPassword(password))) {
     return res.json({ errors: ['invalid credentials'] })
   }
 

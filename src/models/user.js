@@ -23,4 +23,8 @@ userSchema.pre('save', async function encryptPassword() {
   this.password = await bcrypt.hash(this.password, SALT_ROUNDS)
 })
 
+userSchema.methods.verifyPassword = function verifyPassword(password) {
+  return bcrypt.compare(password, this.password)
+}
+
 module.exports = mongoose.model('user', userSchema)
