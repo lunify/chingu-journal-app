@@ -53,7 +53,7 @@ function Login({ onLogin }) {
           type="password"
           name="password"
           id="password"
-          autoComplete="new-password"
+          autoComplete="current-password"
           required
         />
 
