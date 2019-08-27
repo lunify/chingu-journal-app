@@ -1,4 +1,5 @@
 const omit = require('lodash.omit')
+const jwt = require('jsonwebtoken')
 const UserModel = require('../models/user')
 
 module.exports = { register, login }
@@ -27,7 +28,7 @@ async function register(req, res) {
     return res.status(500).send()
   }
 
-  return res.json({ user: getSafeUserInfo(user.toObject()) })
+  return res.json({ user: getSafeUserWithToken(user.toObject()) })
 }
 
 async function login(req, res) {
@@ -47,10 +48,21 @@ async function login(req, res) {
     return res.json({ errors: ['invalid credentials'] })
   }
 
-  return res.json({ user: getSafeUserInfo(user.toObject()) })
+  return res.json({ user: getSafeUserWithToken(user.toObject()) })
 }
 
 // Helpers ***************************
-function getSafeUserInfo(userObj) {
+function getSafeUserWithToken(userObj) {
+  userObj.token = getUserToken(userObj)
   return omit(userObj, ['password', '__v'])
+}
+
+function getUserToken({ id, username }) {
+  const secret = process.env.JWT_SECRET || 'secret'
+
+  return jwt.sign(
+    { id, username },
+    secret,
+    { expiresIn: '90d' }
+  )
 }
