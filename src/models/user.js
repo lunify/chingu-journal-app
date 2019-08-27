@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+const SALT_ROUNDS = 12
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -15,6 +17,10 @@ const userSchema = new mongoose.Schema({
     minlength: [8, 'password should be at least 8 characters long'],
     trim: true
   }
+})
+
+userSchema.pre('save', async function encryptPassword() {
+  this.password = await bcrypt.hash(this.password, SALT_ROUNDS)
 })
 
 module.exports = mongoose.model('user', userSchema)
