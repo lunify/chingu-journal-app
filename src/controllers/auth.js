@@ -1,3 +1,4 @@
+const omit = require('lodash.omit')
 const UserModel = require('../models/user')
 
 module.exports = { register, login }
@@ -26,7 +27,7 @@ async function register(req, res) {
     return res.status(500).send()
   }
 
-  return res.json({ user: user.toObject() })
+  return res.json({ user: getSafeUserInfo(user.toObject()) })
 }
 
 async function login(req, res) {
@@ -46,5 +47,10 @@ async function login(req, res) {
     return res.json({ errors: ['invalid credentials'] })
   }
 
-  return res.json({ user: user.toObject() })
+  return res.json({ user: getSafeUserInfo(user.toObject()) })
+}
+
+// Helpers ***************************
+function getSafeUserInfo(userObj) {
+  return omit(userObj, ['password', '__v'])
 }
