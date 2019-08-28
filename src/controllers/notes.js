@@ -1,6 +1,6 @@
 const UserModel = require('../models/user')
 
-module.exports = { createNote }
+module.exports = { createNote, deleteNote }
 
 async function createNote(req, res) {
   const { title, body } = req.body
@@ -31,6 +31,31 @@ async function createNote(req, res) {
 
   if (!user) {
     return res.json({ errors: ['user not found'] })
+  }
+
+  return res.json({ notes: user.toObject().notes })
+}
+
+async function deleteNote(req, res) {
+  const { id } = req.params
+  const { userId } = req.query
+
+  if (!userId) {
+    return res.status(400).send()
+  }
+
+  try {
+    var user = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { notes: { _id: id } } },
+      { new: true }
+    )
+  } catch (err) {
+    return res.status(500).send()
+  }
+
+  if (!user) {
+    return res.json({ errors: ["user not found"] });
   }
 
   return res.json({ notes: user.toObject().notes })

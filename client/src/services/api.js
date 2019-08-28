@@ -34,6 +34,10 @@ const notesAPI = {
   async createNote({ title, body, userId }) {
     const { data } = await api.post(`/notes/?userId=${userId}`, { title, body })
     return data
+  },
+  async deleteNote({ id, userId }) {
+    const { data } = await api.delete(`/notes/${id}/?userId=${userId}`)
+    return data
   }
 }
 
