@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { notesAPI } from "../services/api"
+import React from 'react'
+import Note from './note'
 
 export default NotesList
 
-function NotesList({ notes, user, onNoteDelete }) {
+function NotesList({ notes, user, onNoteSubmit }) {
   return (
     <section>
       {notes.map(note => (
@@ -11,38 +11,9 @@ function NotesList({ notes, user, onNoteDelete }) {
           key={note._id}
           note={note}
           user={user}
-          onNoteDelete={onNoteDelete}
+          onNoteSubmit={onNoteSubmit}
         />
       ))}
     </section>
-  )
-}
-
-function Note({ note, user, onNoteDelete }) {
-  // state ********************
-  const [loading, setLoading] = useState(false)
-
-  // methods ********************
-  async function handleDelete(e) {
-    e.preventDefault()
-    setLoading(true)
-
-    const { notes } = await notesAPI.deleteNote({
-      id: note._id,
-      userId: user._id
-    })
-
-    onNoteDelete(notes)
-  }
-
-  // render ********************
-  return (
-    <div>
-      <h3>{note.title}</h3>
-      <p>{note.body}</p>
-      <button disabled={loading} onClick={handleDelete}>
-        delete
-      </button>
-    </div>
   )
 }
