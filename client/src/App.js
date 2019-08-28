@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import Header from './components/header'
 import Home from './components/home'
 import Login from './components/login'
 import Register from './components/register'
@@ -17,6 +18,7 @@ function App() {
   // render ********************
   return (
     <Router>
+      <Header user={user} onLogout={() => setUser(null)} />
       <Route
         path="/register"
         render={() =>
