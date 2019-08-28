@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import Home from './components/home'
 import Login from './components/login'
 import Register from './components/register'
+import Splash from './components/splash'
 
 function App() {
   // state ********************
@@ -32,7 +33,7 @@ function App() {
         exact
         path="/"
         render={() =>
-          user && <Home user={user} updateNotes={updateNotes} />
+          user ? <Home user={user} updateNotes={updateNotes} /> : <Splash />
         }
       />
     </Router>
