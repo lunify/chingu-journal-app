@@ -1,6 +1,6 @@
 const UserModel = require('../models/user')
 
-module.exports = { createNote }
+module.exports = { createNote, deleteNote }
 
 async function createNote(req, res) {
   const { title, body } = req.body
@@ -35,3 +35,5 @@ async function createNote(req, res) {
 
   return res.json({ notes: user.toObject().notes })
 }
+
+async function deleteNote(req, res) {}
