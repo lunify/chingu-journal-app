@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV != 'production') {
+  require('dotenv').config({ path: '.env.development.local' })
+}
+
 const express = require('express')
 const morgan = require('morgan')
 
@@ -20,5 +24,18 @@ if (process.env.NODE_ENV == 'production') {
   })
 }
 
+const setupAuthRoutes = require('./src/routes/auth')
+const authRouter = express.Router()
+setupAuthRoutes(authRouter)
+app.use("/api/auth", authRouter)
+
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => { console.info(`Successfuly connected to port ${PORT}`) })
+
+const mongoose = require('mongoose')
+const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost/v11-prework-journal'
+mongoose.connect(
+  DB_URI,
+  { useNewUrlParser: true, useCreateIndex: true },
+  () => console.info(`Connected to ${DB_URI}`)
+)

@@ -1,37 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import Login from './components/login'
+import Register from './components/register'
 
 function App() {
-  const [ apiMessage, setMessage ] = useState('')
-
-  useEffect(() => {
-    axios.get('/api').then(res => { setMessage(res.data.message) })
-  }, [])
-
+  const [user, setUser] = useState(null)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        { apiMessage && (
-          <p>Message: {apiMessage}</p>
-        )}
-      </header>
-    </div>
-  );
+    <Router>
+      <Route
+        path="/register"
+        render={() =>
+          user ? <Redirect to="/" /> : <Register onRegister={setUser} />
+        }
+      />
+      <Route
+        path="/login"
+        render={() =>
+          user ? <Redirect to="/" /> : <Login onLogin={setUser} />
+        }
+      />
+    </Router>
+  )
 }
 
 export default App;
