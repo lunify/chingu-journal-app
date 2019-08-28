@@ -9,7 +9,7 @@ function Home({ user, updateNotes }) {
     <div>
       <NoteForm user={user} onNoteSubmit={updateNotes} />
       {user.notes.length > 0 && (
-        <NotesList user={user} notes={user.notes} onNoteDelete={updateNotes} />
+        <NotesList user={user} notes={user.notes} onNoteSubmit={updateNotes} />
       )}
     </div>
   )
