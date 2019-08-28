@@ -16,7 +16,21 @@ const userSchema = new mongoose.Schema({
     required: [true, 'password is required'],
     minlength: [8, 'password should be at least 8 characters long'],
     trim: true
-  }
+  },
+  notes: [{
+    title: {
+      type: String,
+      required: [true, 'title is required'],
+      minlength: [5, 'notes title should be at least 5 characters long'],
+      maxlength: [80, 'notes should be at most 80 characters long'],
+      trim: true
+    },
+    body: {
+      type: String,
+      required: [true, 'body is required'],
+      trim: true
+    }
+  }]
 })
 
 userSchema.pre('save', async function encryptPassword() {
